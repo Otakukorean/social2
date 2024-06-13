@@ -60,14 +60,15 @@ export const postRouter = createTRPCRouter({
         direction: z.enum(['forward', 'backward']), // optional, useful for bi-directional query
         orderBy : z.enum(['asc','desc','']) ,
         search : z.string().optional() ,
-        userId : z.string().optional()
+        userId : z.string().optional() ,
+        tag : z.string().optional()
       }),
     )
     .query(async (opts) => {
       await new Promise((resolve) => setTimeout(resolve , 1500))
       const { input , ctx } = opts;
       const limit = input.limit ?? 10;
-      const { cursor , orderBy , search , userId } = input;
+      const { cursor , orderBy , search , userId , tag } = input;
       const items = await ctx.db.post.findMany({
         take: limit + 1, // get an extra item at the end which we'll use as next cursor
         cursor: cursor ? { subId:cursor  } : undefined,
@@ -112,8 +113,13 @@ export const postRouter = createTRPCRouter({
            
 
           ] ,
-          userId : userId ?? undefined
-         
+          userId : userId ?? undefined ,
+          Tag : {
+            some  : {
+              tag : tag ?? undefined
+            }
+          }
+          
         }
       });
       let nextCursor: typeof cursor | undefined = undefined;

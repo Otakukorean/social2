@@ -13,9 +13,7 @@ interface FollowBtnProps {
 
 const FollowBtn : React.FC<FollowBtnProps> = ({userId}) => {
     const session = useSession()
-    const router = useRouter()
     const queryClient = useQueryClient()
-
     const Follow = api.follow.create.useMutation({
         onError : () => {
             toast({title : "Error",description :"Something went wrong!"})
