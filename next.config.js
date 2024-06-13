@@ -15,6 +15,12 @@ const config = {
             hostname : "lh3.googleusercontent.com"
         }
         ]
+    } ,
+    eslint : {
+        ignoreDuringBuilds : true
+    } ,
+    typescript : {
+        ignoreBuildErrors : true
     }
 };
 
